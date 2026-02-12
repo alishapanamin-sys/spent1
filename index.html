@@ -3,591 +3,214 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Spin the Wheel</title>
+<title>Spin & Win</title>
 
 <style>
-:root{
-  --bg1:#0b0f19;
-  --bg2:#1e293b;
-  --gold:#facc15;
-  --gold2:#f59e0b;
-  --green:#22c55e;
-  --text:#ffffff;
-  --muted: rgba(255,255,255,.65);
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
 body{
-  font-family: system-ui, -apple-system, sans-serif;
-  background:
-    radial-gradient(900px 520px at 20% 10%, rgba(245,158,11,.18), transparent 55%),
-    radial-gradient(760px 520px at 90% 15%, rgba(34,197,94,.14), transparent 50%),
-    radial-gradient(700px 520px at 35% 95%, rgba(239,68,68,.12), transparent 45%),
-    linear-gradient(180deg, var(--bg2), var(--bg1));
-  color:var(--text);
+  margin:0;
+  font-family:system-ui;
+  background:radial-gradient(circle at top,#1e293b,#0f172a);
+  color:#fff;
   text-align:center;
-  padding:18px 14px 40px;
-  min-height:100vh;
+  padding:20px 15px 40px;
 }
 
 h1{
   font-size:22px;
   font-weight:900;
-  letter-spacing:.2px;
-  margin:6px 0 18px;
+  margin-bottom:20px;
 }
 
-.sub{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:14px;
-}
-
-/* Wheel block */
-.wheel-wrap{
+.wheel-container{
+  position:relative;
   width:100%;
-  max-width:440px;
+  max-width:420px;
   margin:0 auto;
-  position:relative;
 }
 
-.wheel-shell{
-  position:relative;
-  border-radius:999px;
-  overflow:hidden;
-  filter: drop-shadow(0 18px 28px rgba(0,0,0,.55));
-}
-
-/* ✨ Gold shine overlay */
-.wheel-shell::after{
-  content:"";
-  position:absolute;
-  inset:-30%;
-  background: linear-gradient(120deg,
-    transparent 0%,
-    rgba(250,204,21,.0) 35%,
-    rgba(250,204,21,.35) 45%,
-    rgba(250,204,21,.0) 55%,
-    transparent 100%);
-  transform: translateX(-60%) rotate(12deg);
-  animation: shine 2.8s linear infinite;
-  pointer-events:none;
-  mix-blend-mode: screen;
-}
-
-@keyframes shine{
-  0%{ transform: translateX(-70%) rotate(12deg); opacity:.0; }
-  12%{ opacity:.6; }
-  50%{ opacity:.35; }
-  100%{ transform: translateX(70%) rotate(12deg); opacity:0; }
-}
-
-canvas#wheel{
+canvas{
   width:100%;
   height:auto;
-  display:block;
-  background: rgba(255,255,255,.02);
 }
 
-/* pointer */
 .pointer{
   position:absolute;
-  top:-7px;
+  top:-5px;
   left:50%;
   transform:translateX(-50%);
   width:0;height:0;
   border-left:18px solid transparent;
   border-right:18px solid transparent;
-  border-top:32px solid var(--gold);
-  filter: drop-shadow(0 10px 10px rgba(0,0,0,.55));
-  z-index:5;
+  border-top:30px solid gold;
 }
 
-/* Center hub */
-.hub{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  width:86px;
-  height:86px;
-  border-radius:999px;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,.20), rgba(255,255,255,.08) 40%, rgba(0,0,0,.35) 70%),
-    linear-gradient(180deg, rgba(250,204,21,.95), rgba(245,158,11,.5));
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow: 0 16px 26px rgba(0,0,0,.55);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:1000;
-  color:#0b0f19;
-  letter-spacing:.8px;
-  user-select:none;
-  z-index:4;
-}
-
-/* Buttons */
 #spinBtn{
-  margin-top:18px;
+  margin-top:20px;
   width:100%;
-  max-width:440px;
+  max-width:420px;
   padding:18px;
   font-size:20px;
-  font-weight:1000;
+  font-weight:900;
   border:none;
   border-radius:14px;
-  background: linear-gradient(to bottom, var(--gold), var(--gold2));
-  color:#111;
-  cursor:pointer;
-  position:relative;
-  overflow:hidden;
+  background:gold;
+  color:#000;
 }
-#spinBtn::after{
-  content:"";
-  position:absolute;
-  top:-40%;
-  left:-60%;
-  width:60%;
-  height:180%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
-  transform: rotate(18deg);
-  animation: btnShine 2.6s linear infinite;
-  pointer-events:none;
-}
-@keyframes btnShine{
-  0%{ left:-60%; opacity:0; }
-  15%{ opacity:.8; }
-  55%{ opacity:.25; }
-  100%{ left:140%; opacity:0; }
-}
-#spinBtn:active{ transform:scale(.97) }
-#spinBtn[disabled]{ opacity:.65; cursor:not-allowed }
 
 .result{
-  margin-top:18px;
-  width:100%;
-  max-width:440px;
-  margin-left:auto;
-  margin-right:auto;
-  padding:14px;
-  border-radius:14px;
-  background: rgba(0,0,0,.22);
-  border: 1px solid rgba(255,255,255,.12);
+  margin-top:20px;
   display:none;
 }
-.result .title{
-  font-weight:900;
-  font-size:18px;
-  margin-bottom:6px;
-}
-.result .msg{
-  color: rgba(255,255,255,.92);
-  font-weight:700;
-  font-size:15px;
+
+.result img{
+  width:160px;
+  margin-top:10px;
 }
 
 #continueBtn{
   display:none;
-  margin:14px auto 0;
+  margin-top:15px;
+  padding:15px;
   width:100%;
-  max-width:440px;
-  padding:16px;
+  max-width:420px;
   font-size:18px;
-  font-weight:1000;
-  background: linear-gradient(180deg, rgba(34,197,94,.95), rgba(34,197,94,.72));
-  color:#041b0c;
+  font-weight:800;
+  background:#22c55e;
+  color:#000;
   text-decoration:none;
   border-radius:12px;
 }
 
-.row{
-  display:flex;
-  gap:10px;
-  width:100%;
-  max-width:440px;
-  margin:12px auto 0;
-}
-#spinAgainBtn{
-  flex:1;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.16);
-  background: rgba(255,255,255,.06);
-  color:rgba(255,255,255,.95);
-  font-weight:900;
-  cursor:pointer;
-  display:none;
-}
-
 .disclaimer{
-  margin-top:18px;
+  margin-top:20px;
   font-size:11px;
-  color: rgba(255,255,255,.62);
-  line-height:1.4;
-}
-
-/* 🎉 Confetti canvas overlay */
-#confetti{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:9999;
+  opacity:.6;
 }
 </style>
 </head>
 
 <body>
-  <h1>Spin the Wheel to Unlock Your Reward</h1>
-  <div class="sub">Tap SPIN once. Result appears below the wheel.</div>
 
-  <div class="wheel-wrap">
-    <div class="pointer"></div>
+<h1>Spin the Wheel to Unlock Your Reward</h1>
 
-    <div class="wheel-shell">
-      <canvas id="wheel" width="500" height="500" aria-label="Prize wheel"></canvas>
-      <div class="hub" aria-hidden="true">SPIN</div>
-    </div>
-  </div>
+<div class="wheel-container">
+  <div class="pointer"></div>
+  <canvas id="wheel" width="500" height="500"></canvas>
+</div>
 
-  <button id="spinBtn">SPIN</button>
+<button id="spinBtn">SPIN</button>
 
-  <div class="result" id="resultBox" aria-live="polite">
-    <div class="title" id="resultTitle">Result</div>
-    <div class="msg" id="resultMsg"></div>
-  </div>
+<div class="result" id="resultBox">
+  <h3 id="resultText"></h3>
+  <img id="resultImage" src="">
+</div>
 
-  <a id="continueBtn" href="#" rel="nofollow noopener">Continue</a>
+<a id="continueBtn" href="#">Continue</a>
 
-  <div class="row">
-    <button id="spinAgainBtn" type="button">Spin Again</button>
-  </div>
-
-  <div class="disclaimer">
-    This is a promotional game. Rewards may include a chance to win selected items. Odds vary.
-    Availability and eligibility may depend on location and the offer’s terms.
-  </div>
-
-  <canvas id="confetti"></canvas>
+<div class="disclaimer">
+This is a promotional game. Rewards may include a chance to win selected items.
+</div>
 
 <script>
-(() => {
-  // ✅ Put your Monetizer Smartlink here:
-  const SMARTLINK = "https://iconics.adsleads1.store/?utm_medium=24c9e8ead1a61abc4ca11515604da84dbebe69ba&utm_campaign=spent";
+const SMARTLINK="https://iconics.adsleads1.store/?utm_medium=24c9e8ead1a61abc4ca11515604da84dbebe69ba&utm_campaign=spent";
 
-  // ⚙️ التحكم في نسب الفوز (Weights)
-  // كل ما تزود weight لعنصر = يزيد احتمال ظهوره.
-  // مثال عملي:
-  // - Gift Card أعلى وزن (أفضل للـCPA)
-  // - الأجهزة وزن متوسط
-  // - No Prize وزن أعلى/أقل حسب رغبتك
-  const segments = [
-    { label:"GOOD LUCK NEXT TIME", kind:"luck", weight: 10 },
+const segments=[
+{label:"iPhone 17",img:"https://i.imgur.com/1bX5QH6.png",weight:6,win:true},
+{label:"Top iPad",img:"https://i.imgur.com/3cX6J7A.png",weight:6,win:true},
+{label:"Samsung Ultra",img:"https://i.imgur.com/7yUvePI.png",weight:6,win:true},
+{label:"Gift Card",img:"https://i.imgur.com/Fj6Yq6R.png",weight:15,win:true},
+{label:"No Prize",img:"https://i.imgur.com/8Q2Z6Fv.png",weight:10,win:false},
+{label:"Good Luck",img:"https://i.imgur.com/8Q2Z6Fv.png",weight:10,win:false},
+];
 
-    { label:"CHANCE TO WIN IPHONE 17", kind:"win", weight: 6 },
-    { label:"CHANCE TO WIN TOP-TIER IPAD", kind:"win", weight: 6 },
-    { label:"CHANCE TO WIN SAMSUNG ULTRA (TOP MODEL)", kind:"win", weight: 6 },
+const colors=["#f59e0b","#22c55e","#3b82f6","#ef4444","#a855f7","#f97316"];
 
-    { label:"GIFT CARD REWARD", kind:"win", weight: 16 },
+const canvas=document.getElementById("wheel");
+const ctx=canvas.getContext("2d");
+const center=250;
+const radius=240;
+const arc=2*Math.PI/segments.length;
+let angle=0;
+let spinning=false;
 
-    { label:"NO PRIZE THIS TIME", kind:"lose", weight: 10 },
-    { label:"NO PRIZE THIS TIME", kind:"lose", weight: 10 },
-  ];
+const images=[];
+segments.forEach((seg,i)=>{
+  const img=new Image();
+  img.src=seg.img;
+  images[i]=img;
+});
 
-  const colors = ["#f59e0b","#22c55e","#3b82f6","#ef4444","#a855f7","#f97316","#14b8a6"];
+function draw(){
+ctx.clearRect(0,0,500,500);
 
-  // Canvas setup (wheel)
-  const wheel = document.getElementById("wheel");
-  const ctx = wheel.getContext("2d");
-  const W = wheel.width, H = wheel.height;
-  const cx = W/2, cy = H/2;
-  const radius = 240;
-  const arc = 2*Math.PI/segments.length;
+for(let i=0;i<segments.length;i++){
+const start=i*arc+angle;
+const end=start+arc;
 
-  // UI
-  const spinBtn = document.getElementById("spinBtn");
-  const resultBox = document.getElementById("resultBox");
-  const resultTitle = document.getElementById("resultTitle");
-  const resultMsg = document.getElementById("resultMsg");
-  const continueBtn = document.getElementById("continueBtn");
-  const spinAgainBtn = document.getElementById("spinAgainBtn");
+ctx.beginPath();
+ctx.moveTo(center,center);
+ctx.arc(center,center,radius,start,end);
+ctx.fillStyle=colors[i];
+ctx.fill();
 
-  // Confetti
-  const conf = document.getElementById("confetti");
-  const cctx = conf.getContext("2d");
-  function resizeConfetti(){
-    conf.width = window.innerWidth;
-    conf.height = window.innerHeight;
-  }
-  window.addEventListener("resize", resizeConfetti);
-  resizeConfetti();
+ctx.save();
+ctx.translate(center,center);
+ctx.rotate(start+arc/2);
 
-  // 🔥 Win sound (WebAudio – no external files)
-  let audioCtx;
-  function playWinSound(){
-    try{
-      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-      const now = audioCtx.currentTime;
+if(images[i].complete){
+ctx.drawImage(images[i],radius-80,-30,60,60);
+}
 
-      const osc1 = audioCtx.createOscillator();
-      const gain1 = audioCtx.createGain();
-      osc1.type = "sine";
-      osc1.frequency.setValueAtTime(523.25, now); // C5
-      osc1.frequency.exponentialRampToValueAtTime(783.99, now + 0.12); // G5
-      gain1.gain.setValueAtTime(0.0001, now);
-      gain1.gain.exponentialRampToValueAtTime(0.22, now + 0.02);
-      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
-      osc1.connect(gain1).connect(audioCtx.destination);
-      osc1.start(now);
-      osc1.stop(now + 0.28);
+ctx.restore();
+}
+}
 
-      const osc2 = audioCtx.createOscillator();
-      const gain2 = audioCtx.createGain();
-      osc2.type = "triangle";
-      osc2.frequency.setValueAtTime(659.25, now + 0.06); // E5
-      gain2.gain.setValueAtTime(0.0001, now + 0.06);
-      gain2.gain.exponentialRampToValueAtTime(0.16, now + 0.08);
-      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
-      osc2.connect(gain2).connect(audioCtx.destination);
-      osc2.start(now + 0.06);
-      osc2.stop(now + 0.32);
-    }catch(e){}
-  }
+draw();
 
-  function playLoseSound(){
-    try{
-      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-      const now = audioCtx.currentTime;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type="square";
-      osc.frequency.setValueAtTime(180, now);
-      osc.frequency.exponentialRampToValueAtTime(120, now + 0.18);
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.12, now + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
-      osc.connect(gain).connect(audioCtx.destination);
-      osc.start(now);
-      osc.stop(now + 0.24);
-    }catch(e){}
-  }
+function weightedPick(){
+let sum=segments.reduce((a,b)=>a+b.weight,0);
+let rand=Math.random()*sum;
+for(let seg of segments){
+rand-=seg.weight;
+if(rand<=0)return seg;
+}
+return segments[0];
+}
 
-  // Weighted pick
-  function pickWeighted(items){
-    const sum = items.reduce((a,b)=>a+b.weight,0);
-    let r = Math.random()*sum;
-    for(const it of items){
-      r -= it.weight;
-      if(r <= 0) return it;
-    }
-    return items[items.length-1];
-  }
+document.getElementById("spinBtn").onclick=function(){
+if(spinning)return;
+spinning=true;
 
-  // Draw wheel at angle
-  function draw(angle=0){
-    ctx.clearRect(0,0,W,H);
+let chosen=weightedPick();
+let index=segments.indexOf(chosen);
 
-    for(let i=0;i<segments.length;i++){
-      const start = i*arc + angle;
-      const end = start + arc;
+let spinAngle=6*2*Math.PI+(2*Math.PI-(index*arc));
+let start=angle;
+let duration=4000;
+let startTime=null;
 
-      ctx.beginPath();
-      ctx.moveTo(cx,cy);
-      ctx.arc(cx,cy,radius,start,end);
-      ctx.closePath();
-      ctx.fillStyle = colors[i % colors.length];
-      ctx.fill();
+function animate(t){
+if(!startTime)startTime=t;
+let progress=t-startTime;
+angle=start+(spinAngle-start)*(progress/duration);
+draw();
 
-      ctx.strokeStyle = "rgba(255,255,255,.35)";
-      ctx.lineWidth = 3;
-      ctx.stroke();
+if(progress<duration){
+requestAnimationFrame(animate);
+}else{
+spinning=false;
 
-      // Text
-      ctx.save();
-      ctx.translate(cx,cy);
-      ctx.rotate(start + arc/2);
-      ctx.textAlign="right";
-      ctx.fillStyle="rgba(10,15,25,.92)";
-      ctx.font="900 14px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-      wrapText(segments[i].label, radius-10, 0, 260, 16);
-      ctx.restore();
-    }
+document.getElementById("resultBox").style.display="block";
+document.getElementById("resultText").innerText=
+chosen.win?"Congratulations! Chance to win "+chosen.label:"No Prize This Time";
+document.getElementById("resultImage").src=chosen.img;
+document.getElementById("continueBtn").style.display="block";
+document.getElementById("continueBtn").href=SMARTLINK;
+}
+}
 
-    // Center ring
-    ctx.beginPath();
-    ctx.arc(cx,cy,92,0,Math.PI*2);
-    ctx.fillStyle="rgba(0,0,0,.22)";
-    ctx.fill();
-    ctx.strokeStyle="rgba(255,255,255,.18)";
-    ctx.lineWidth=6;
-    ctx.stroke();
-  }
-
-  function wrapText(text, x, y, maxWidth, lineHeight){
-    const words = text.split(" ");
-    let line = "";
-    let yy = y;
-
-    for(let n=0;n<words.length;n++){
-      const test = line + words[n] + " ";
-      if(ctx.measureText(test).width > maxWidth && n>0){
-        ctx.fillText(line.trim(), x, yy);
-        line = words[n] + " ";
-        yy += lineHeight;
-      }else{
-        line = test;
-      }
-    }
-    ctx.fillText(line.trim(), x, yy);
-  }
-
-  // Build Smartlink with passthrough params (optional)
-  function buildSmartlink(){
-    const u = new URL(SMARTLINK, window.location.origin);
-    const here = new URL(window.location.href);
-    ["subid","sub_id","clickid","cid","utm_source","utm_campaign","utm_medium","utm_content"].forEach(k=>{
-      const v = here.searchParams.get(k);
-      if(v && !u.searchParams.has(k)) u.searchParams.set(k, v);
-    });
-    return u.toString();
-  }
-
-  // 🎉 Confetti
-  let confettiRunning = false;
-  function launchConfetti(durationMs=1400){
-    const particles = [];
-    const count = 140;
-    const w = conf.width, h = conf.height;
-
-    for(let i=0;i<count;i++){
-      particles.push({
-        x: Math.random()*w,
-        y: -20 - Math.random()*h*0.2,
-        vx: (Math.random()-0.5)*6,
-        vy: 3 + Math.random()*6,
-        r: 3 + Math.random()*5,
-        a: Math.random()*Math.PI*2,
-        va: (Math.random()-0.5)*0.3,
-        life: 0,
-        max: 60 + Math.random()*40,
-        c: colors[i%colors.length]
-      });
-    }
-
-    confettiRunning = true;
-    const start = performance.now();
-
-    function frame(now){
-      const elapsed = now - start;
-      cctx.clearRect(0,0,conf.width, conf.height);
-
-      for(const p of particles){
-        p.life++;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.a += p.va;
-        p.vy += 0.05; // gravity
-        p.vx *= 0.99;
-
-        cctx.save();
-        cctx.translate(p.x, p.y);
-        cctx.rotate(p.a);
-        cctx.fillStyle = p.c;
-        cctx.fillRect(-p.r, -p.r, p.r*2, p.r*2);
-        cctx.restore();
-      }
-
-      const alive = particles.some(p => p.life < p.max && p.y < conf.height + 30);
-      if(elapsed < durationMs && alive){
-        requestAnimationFrame(frame);
-      }else{
-        cctx.clearRect(0,0,conf.width, conf.height);
-        confettiRunning = false;
-      }
-    }
-    requestAnimationFrame(frame);
-  }
-
-  // Spin animation -> land on CHOSEN segment (so odds are real)
-  let spinning = false;
-  let currentAngle = 0;
-
-  function spin(){
-    if(spinning) return;
-
-    if(!SMARTLINK || SMARTLINK === "YOUR_SMARTLINK_HERE"){
-      alert('Please set your Monetizer Smartlink: SMARTLINK = "..."');
-      return;
-    }
-
-    spinning = true;
-    spinBtn.disabled = true;
-
-    // hide old result
-    resultBox.style.display = "none";
-    continueBtn.style.display = "none";
-    spinAgainBtn.style.display = "none";
-
-    const chosen = pickWeighted(segments);
-    const idx = segments.indexOf(chosen);
-
-    // pointer at TOP, want chosen slice center to land at 270deg (3π/2)
-    const sliceCenter = idx*arc + arc/2;
-    const target = (Math.PI*1.5) - sliceCenter;
-
-    const extraSpins = 6 + Math.random()*2; // 6-8 spins
-    const startAngle = currentAngle;
-    const endAngle = target + extraSpins*(Math.PI*2);
-
-    const duration = 4200 + Math.random()*700;
-    const startTime = performance.now();
-    const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
-
-    function frame(now){
-      const t = Math.min(1, (now - startTime)/duration);
-      const eased = easeOutCubic(t);
-      currentAngle = startAngle + (endAngle - startAngle)*eased;
-      draw(currentAngle);
-
-      if(t < 1){
-        requestAnimationFrame(frame);
-      }else{
-        spinning = false;
-        spinBtn.disabled = false;
-
-        // show result under wheel
-        resultBox.style.display = "block";
-        const isWin = chosen.kind === "win";
-        const isLuck = chosen.kind === "luck";
-
-        resultTitle.textContent =
-          isWin ? "🎉 Congratulations!" :
-          isLuck ? "🍀 Good Luck!" :
-          "😔 Try Again";
-
-        resultMsg.textContent = chosen.label + ". Tap Continue to proceed.";
-        continueBtn.href = buildSmartlink();
-        continueBtn.style.display = "block";
-        spinAgainBtn.style.display = "block";
-
-        // Effects
-        if(isWin){
-          playWinSound();
-          if(!confettiRunning) launchConfetti(1500);
-        }else{
-          playLoseSound();
-        }
-      }
-    }
-    requestAnimationFrame(frame);
-  }
-
-  spinBtn.addEventListener("click", spin);
-  spinAgainBtn.addEventListener("click", spin);
-
-  // initial draw
-  draw(currentAngle);
-})();
+requestAnimationFrame(animate);
+};
 </script>
 
 </body>
